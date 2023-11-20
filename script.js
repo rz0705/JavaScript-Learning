@@ -1,16 +1,76 @@
 document.addEventListener("DOMContentLoaded", function () {
     const addProductButton = document.getElementById("btn");
 
+    addProductButton.addEventListener("click", function (event) {
+        event.preventDefault(); // Prevent form submission for now
+
+        const nameField = document.getElementById("name");
+        const brandField = document.getElementById("brand");
+        const priceField = document.getElementById("price");
+        const categoryField = document.getElementById("category");
+        const itemWeightField = document.getElementById("item-weight");
+        const descriptionField = document.getElementById("description");
+
+        const name = nameField.value;
+        const brand = brandField.value;
+        const price = parseFloat(priceField.value);
+        const category = categoryField.value;
+        const itemWeight = parseFloat(itemWeightField.value);
+        const description = descriptionField.value;
+
+        // Validation checks
+        const isNameValid = name.trim() !== '';
+        const isBrandValid = brand.trim() !== '';
+        const isPriceValid = !isNaN(price) && price > 0;
+        const isCategoryValid = category !== "Select category";
+        const isItemWeightValid = !isNaN(itemWeight) && itemWeight > 0;
+        const isDescriptionValid = description.trim() !== '';
+
+        const isValid = isNameValid && isBrandValid && isPriceValid && isCategoryValid && isItemWeightValid && isDescriptionValid;
+
+        if (isValid) {
+            // field.style.borderColor = 'green';
+            Swal.fire({
+                icon: 'success',
+                title: 'Product Added!',
+                text: 'The product has been successfully added.',
+                customClass: {
+                    popup: 'small-sweetalert'
+                }
+            });
+
+            // Reset border colors after successful submission
+            resetBorderColor([nameField, brandField, priceField, categoryField, itemWeightField, descriptionField]);
+        } else {
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                text: 'Please fill in all required fields correctly.',
+                customClass: {
+                    popup: 'small-sweetalert'
+                }
+            });
+
+            // Set red border color for blank fields
+            setBorderColorIfEmpty(nameField, isNameValid);
+            setBorderColorIfEmpty(brandField, isBrandValid);
+            setBorderColorIfEmpty(priceField, isPriceValid);
+            setBorderColorIfEmpty(categoryField, isCategoryValid);
+            setBorderColorIfEmpty(itemWeightField, isItemWeightValid);
+            setBorderColorIfEmpty(descriptionField, isDescriptionValid);
+        }
+    });
+
+
     addProductButton.addEventListener("mouseover", function () {
         const name = document.getElementById("name").value;
         const brand = document.getElementById("brand").value;
-        const price = parseFloat(document.getElementById("price").value); // Parse to float
+        const price = document.getElementById("price").value;
         const category = document.getElementById("category").value;
-        const itemWeight = parseFloat(document.getElementById("item-weight").value); // Parse to float
-        const description = document.getElementById("description").value;
+        const itemWeight = document.getElementById("item-weight").value;
 
-        // Validation checks
-        const isValid = name && brand && price > 0 && category !== "Select category" && itemWeight > 0 && description;
+        const isValid = name && brand && price && category && itemWeight;
 
         if (isValid) {
             addProductButton.style.backgroundColor = "green";
@@ -29,56 +89,20 @@ document.addEventListener("DOMContentLoaded", function () {
         addProductButton.classList.remove("shake", "zoom");
     });
 
-    addProductButton.addEventListener("click", function (event) {
-        event.preventDefault(); // Prevent form submission for now
-
-        const name = document.getElementById("name").value;
-        const brand = document.getElementById("brand").value;
-        const price = parseFloat(document.getElementById("price").value); // Parse to float
-        const category = document.getElementById("category").value;
-        const itemWeight = parseFloat(document.getElementById("item-weight").value); // Parse to float
-        const description = document.getElementById("description").value;
-
-        // Validation checks
-        const isValid = name && brand && price > 0 && category !== "Select category" && itemWeight > 0 && description;
-
-        if (isValid) {
-            // Your logic for adding the product goes here
-            // For demonstration, I'm using SweetAlert to show a success message
-            Swal.fire({
-                icon: 'success',
-                title: 'Product Added!',
-                text: 'The product has been successfully added.',
-                customClass: {
-                    popup: 'small-sweetalert'
-                }
-            });
+    function setBorderColorIfEmpty(field, isValid) {
+        // Set the border color of the specified field if it is empty and not valid
+        if (!isValid) {
+            field.style.borderColor = 'red';
         } else {
-            // Show an error message using SweetAlert
-            Swal.fire({
-                icon: 'error',
-                title: 'Validation Error',
-                text: 'Please fill in all required fields correctly.',
-                customClass: {
-                    popup: 'small-sweetalert'
-                }
-            });
+            field.style.borderColor = 'green';
         }
-    });
+    }
+
+    function resetBorderColor(fields) {
+        // Reset the border color of all specified fields
+        setBorderColor(fields, true);
+    }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

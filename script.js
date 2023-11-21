@@ -1,34 +1,42 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const addProductButton = document.getElementById("btn");
+    var addProductButton = document.getElementById("btn");
 
     addProductButton.addEventListener("click", function (event) {
         event.preventDefault(); // Prevent form submission for now
 
-        const nameField = document.getElementById("name");
-        const brandField = document.getElementById("brand");
-        const priceField = document.getElementById("price");
-        const categoryField = document.getElementById("category");
-        const itemWeightField = document.getElementById("item-weight");
-        const descriptionField = document.getElementById("description");
+        var nameField = document.getElementById("name");
+        var brandField = document.getElementById("brand");
+        var priceField = document.getElementById("price");
+        var categoryField = document.getElementById("category");
+        var itemWeightField = document.getElementById("item-weight");
+        var descriptionField = document.getElementById("description");
 
-        const name = nameField.value;
-        const brand = brandField.value;
-        const price = parseFloat(priceField.value);
-        const category = categoryField.value;
-        const itemWeight = parseFloat(itemWeightField.value);
-        const description = descriptionField.value;
+        var name = nameField.value;
+        var brand = brandField.value;
+        var price = parseFloat(priceField.value);
+        var category = categoryField.value;
+        var itemWeight = parseFloat(itemWeightField.value);
+        var description = descriptionField.value;
 
         // Validation checks
-        const isNameValid = name.trim() !== '';
-        const isBrandValid = brand.trim() !== '';
-        const isPriceValid = !isNaN(price) && price > 0;
-        const isCategoryValid = category !== "Select category";
-        const isItemWeightValid = !isNaN(itemWeight) && itemWeight > 0;
-        const isDescriptionValid = description.trim() !== '';
+        var isNameValid = name !== '';
+        var isBrandValid = brand !== '';
+        var isPriceValid = !isNaN(price) && price > 0;
+        var isCategoryValid = category !== "Select category";
+        var isItemWeightValid = !isNaN(itemWeight) && itemWeight > 0;
+        var isDescriptionValid = description !== '';
+        // console.log(price);
+        // console.log(itemWeight);
+        var isPriceAndItemWeightValid = isPriceValid && isItemWeightValid;
 
-        const isValid = isNameValid && isBrandValid && isPriceValid && isCategoryValid && isItemWeightValid && isDescriptionValid;
+        var isValid = isNameValid && isBrandValid && isPriceValid && isCategoryValid && isItemWeightValid && isDescriptionValid && isPriceAndItemWeightValid;
+
+        // console.log('isValid:', isValid);
+        // exit;
 
         if (isValid) {
+            // console.log("true");
+            // exit;
             // field.style.borderColor = 'green';
             Swal.fire({
                 icon: 'success',
@@ -40,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             // Reset border colors after successful submission
-            resetBorderColor([nameField, brandField, priceField, categoryField, itemWeightField, descriptionField]);
+            // resetBorderColor([nameField, brandField, priceField, categoryField, itemWeightField, descriptionField]);
         } else {
 
             Swal.fire({
@@ -62,17 +70,32 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-
     addProductButton.addEventListener("mouseover", function () {
-        const name = document.getElementById("name").value;
-        const brand = document.getElementById("brand").value;
-        const price = document.getElementById("price").value;
-        const category = document.getElementById("category").value;
-        const itemWeight = document.getElementById("item-weight").value;
+        var name = document.getElementById("name").value;
+        var brand = document.getElementById("brand").value;
+        var price = document.getElementById("price").value;
+        var category = document.getElementById("category").value;
+        var itemWeight = document.getElementById("item-weight").value;
+        var description = document.getElementById("description").value;
 
-        const isValid = name && brand && price && category && itemWeight;
+        // Validation checks
+        var isNameValid = name !== '';
+        var isBrandValid = brand !== '';
+        var isPriceValid = !isNaN(price) && price > 0;
+        var isCategoryValid = category !== "Select category";
+        var isItemWeightValid = !isNaN(itemWeight) && itemWeight > 0;
+        var isDescriptionValid = description !== '';
+        // console.log(price);
+        // console.log(itemWeight);
+        var isPriceAndItemWeightValid = isPriceValid && isItemWeightValid;
 
-        if (isValid) {
+        var isValid = isNameValid && isBrandValid && isPriceValid && isCategoryValid && isItemWeightValid && isDescriptionValid && isPriceAndItemWeightValid;
+
+        isValid = name + brand + price + category + itemWeight + description;
+
+        // console.log("dfs" + isValid);
+
+        if (name && brand && price && category && itemWeight && description) {
             addProductButton.style.backgroundColor = "green";
             addProductButton.classList.remove("shake");
             addProductButton.classList.add("zoom");
@@ -97,34 +120,4 @@ document.addEventListener("DOMContentLoaded", function () {
             field.style.borderColor = 'green';
         }
     }
-
-    function resetBorderColor(fields) {
-        // Reset the border color of all specified fields
-        setBorderColor(fields, true);
-    }
 });
-
-
-
-
-// const c = "Hello";
-
-// // const hide = (element) => {
-// //     element.hidden = true;
-// // }
-
-// function consolemsg(element) {
-//     element.hidden = true;
-//     {
-//         let a = 2;
-//         var b = 10;
-//         // b = 10; // can't reassign like this
-
-//         // c = "Hello World"; // Value of const variable is static.
-//         console.log(a);
-//         console.log(b);
-//         console.log(c);
-//     }
-//     // console.log(a); // let can't be access out side of function
-//     console.log(b);
-// };
